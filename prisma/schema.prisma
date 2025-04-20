@@ -35,12 +35,12 @@ model Room {
   hasMountainView Boolean @default(false)
   hasShampoo Boolean @default(false)
   hasFreeLaundry Boolean @default(false)
-  hasAirconditioner Boolean @default(false)
+  hasAirConditioner Boolean @default(false)
   hasWifi Boolean @default(false)
-  hasBarbeque Boolean @default(false)
+  hasBarBeQue Boolean @default(false)
   hasFreeParking Boolean @default(false)
 
   userId String 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
 }
