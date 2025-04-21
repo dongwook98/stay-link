@@ -4,9 +4,11 @@
 import { User } from '@/interface/user'
 import axios from 'axios'
 import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 
 export default function UserInfoPage() {
+  const router = useRouter()
   const { status } = useSession()
 
   const fetchUser = async () => {
@@ -28,6 +30,7 @@ export default function UserInfoPage() {
         <h1 className="text-3xl font-semibold">개인정보</h1>
         <button
           type="button"
+          onClick={() => router.push('/users/edit')}
           className="text-sm font-semibold underline px-4 py-1.5 rounded-md hover:bg-black/5"
         >
           수정하기
