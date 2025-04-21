@@ -12,6 +12,7 @@ import cn from 'classnames'
 
 import { SearchFilter } from './Filter'
 import { filterTypeState, filterValueState } from '@/atom/filter'
+import Link from 'next/link'
 
 const menus = [
   { id: 1, title: '로그인', url: '/users/login' },
@@ -40,7 +41,9 @@ export default function Navbar() {
       {/* 왼쪽 로고 */}
       <div className="grow basis-0 hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer sm:flex sm:gap-2">
         <MdModeOfTravel className="text-4xl my-auto" />
-        <div className="my-auto">StayLink</div>
+        <Link href="/" className="my-auto block">
+          StayLink
+        </Link>
       </div>
 
       {/* 중앙 필터 */}

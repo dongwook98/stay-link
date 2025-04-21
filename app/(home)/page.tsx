@@ -1,5 +1,6 @@
 'use client'
 
+import { Fragment, useEffect, useRef } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 import axios from 'axios'
@@ -9,9 +10,9 @@ import Loader from '@/components/Loader'
 import { GridLayout } from '@/components/RoomList/GridLayout'
 import { RoomItem } from '@/components/RoomList/RoomItem'
 import { Room } from '@/interface/room'
-import { Fragment, useEffect, useRef } from 'react'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import { LoaderGrid } from '@/components/LoaderGrid'
+import { MapButton } from '@/components/Map/MapButton'
 
 export default function Home() {
   const observerRef = useRef<HTMLDivElement | null>(null)
@@ -75,6 +76,7 @@ export default function Home() {
           ))
         )}
       </GridLayout>
+      <MapButton />
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div ref={observerRef} className="w-full touch-none h-10 mb-10" />
     </>
