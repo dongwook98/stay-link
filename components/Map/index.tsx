@@ -42,12 +42,17 @@ export default function Map() {
       rooms?.map((room) => {
         // 마커 표시될 위치
         const markerPosition = new window.kakao.maps.LatLng(room.lat, room.lng)
-        // 마커 생성
-        const marker = new window.kakao.maps.Marker({
+        // custom overlay를 설정
+        const content = `<div class="custom_overlay">${room.price?.toLocaleString()}원</div>`
+
+        // custom overlay를 생성
+        const customOverlay = new window.kakao.maps.CustomOverlay({
           position: markerPosition,
+          content: content,
         })
-        // 마커가 지도 위에 표시되도록 설정
-        marker.setMap(map)
+
+        // 커스텀 오버레이가 지도 위에 표시되도록 설정
+        customOverlay.setMap(map)
       })
     })
   }
