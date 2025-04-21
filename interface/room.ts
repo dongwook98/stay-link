@@ -5,4 +5,6 @@ export interface Room {
   address: string
   price: number
   category: string
+  lat: string
+  lng: string
 }
