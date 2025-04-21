@@ -5,6 +5,9 @@ import React, { Fragment, useEffect, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ko'
+
 import { CommentApiType, Comment } from '@/interface/comment'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 
@@ -125,7 +128,9 @@ export default function CommentListModal({
                                   {comment?.user?.name || '-'}
                                 </h1>
                                 <div className="text-gray-500 text-xs">
-                                  {comment?.createdAt}
+                                  {dayjs(comment?.createdAt)?.format(
+                                    'YYYY-MM-DD HH:MM:ss',
+                                  )}
                                 </div>
                               </div>
                             </div>
