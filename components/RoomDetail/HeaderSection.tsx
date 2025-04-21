@@ -3,13 +3,13 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
-import { CiHeart } from 'react-icons/ci'
 import { AiOutlineUnorderedList } from 'react-icons/ai'
 
 import { Room } from '@/interface/room'
 import { BLUR_DATA_URL } from '@/constants/placeholder'
 import ImageListModal from './ImageListModal'
 import ShareButton from './ShareButton'
+import LikeButton from './LikeButton'
 
 export default function HeaderSection({ data }: { data: Room }) {
   const [showImageModal, setShowImageModal] = useState<boolean>(false)
@@ -21,13 +21,7 @@ export default function HeaderSection({ data }: { data: Room }) {
         <div className="underline text-xs md:text-sm mt-2">{data.address}</div>
         <div className="flex gap-2 text-xs md:text-sm mt-2">
           <ShareButton data={data} />
-          <button
-            type="button"
-            className="flex gap-2 items-center px-2 py-1.5 rounded-lg hover:bg-black/10"
-          >
-            <CiHeart />
-            <span className="underline">저장</span>
-          </button>
+          <LikeButton data={data} />
         </div>
       </div>
       <div className="mt-6 relative">
