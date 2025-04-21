@@ -1,11 +1,15 @@
 'use client'
+import { selectedRoomState } from '@/atom/map'
+import { DEFAULT_LAT, DEFAULT_LNG, ZOOM_LEVEL } from '@/constants/map'
 import { Room } from '@/interface/room'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useSetAtom } from 'jotai'
 /*global kakao*/
 
 import Script from 'next/script'
 import { SetStateAction } from 'react'
+import { FullPageLoader } from '../FullPageLoader'
 
 declare global {
   interface Window {
@@ -13,15 +17,9 @@ declare global {
   }
 }
 
-const DEFAULT_LAT = 37.565337
-const DEFAULT_LNG = 126.9772095
-const ZOOM_LEVEL = 7
+export default function Map() {
+  const setSelectedRoom = useSetAtom(selectedRoomState)
 
-export default function Map({
-  setSelectedRoom,
-}: {
-  setSelectedRoom: React.Dispatch<SetStateAction<Room | null>>
-}) {
   const getRooms = async () => {
     const { data } = await axios('/api/rooms')
     return data as Room[]
@@ -53,14 +51,14 @@ export default function Map({
         const imageSize = new window.kakao.maps.Size(30, 30)
         const imageOption = { offset: new window.kakao.maps.Point(16, 46) }
 
-        // 마커 이미지를 생성합니다
+        // 마커 이미지를 생성
         const markerImage = new window.kakao.maps.MarkerImage(
           imageSrc,
           imageSize,
           imageOption,
         )
 
-        // 마커를 생성합니다
+        // 마커를 생성
         const marker = new window.kakao.maps.Marker({
           position: markerPosition,
           image: markerImage,
@@ -94,13 +92,15 @@ export default function Map({
   }
   return (
     <>
-      {isSuccess && (
+      {isSuccess ? (
         <Script
           strategy="afterInteractive"
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
           onReady={loadKakoMap}
         />
+      ) : (
+        <FullPageLoader />
       )}
       <div id="map" className="w-full h-screen" />
     </>

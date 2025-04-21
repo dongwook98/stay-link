@@ -1,17 +1,13 @@
-import { SetStateAction } from 'react'
 import Image from 'next/image'
+import { useAtom } from 'jotai'
 
 import { BLUR_DATA_URL } from '@/constants/placeholder'
-import { Room } from '@/interface/room'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { selectedRoomState } from '@/atom/map'
 
-export default function SelectedRoom({
-  selectedRoom,
-  setSelectedRoom,
-}: {
-  selectedRoom: Room | null
-  setSelectedRoom: React.Dispatch<SetStateAction<Room | null>>
-}) {
+export default function SelectedRoom() {
+  const [selectedRoom, setSelectedRoom] = useAtom(selectedRoomState)
+
   return (
     <div className="fixed inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-xs md:max-w-sm z-10 w-full bg-white">
       {selectedRoom && (
