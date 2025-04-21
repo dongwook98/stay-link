@@ -1,16 +1,16 @@
 'use client'
+
+import Script from 'next/script'
+import { useQuery } from '@tanstack/react-query'
+import { useSetAtom } from 'jotai'
+import axios from 'axios'
+
 import { selectedRoomState } from '@/atom/map'
 import { DEFAULT_LAT, DEFAULT_LNG, ZOOM_LEVEL } from '@/constants/map'
 import { Room } from '@/interface/room'
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import { useSetAtom } from 'jotai'
-/*global kakao*/
-
-import Script from 'next/script'
-import { SetStateAction } from 'react'
 import { FullPageLoader } from '../FullPageLoader'
 
+/*global kakao*/
 declare global {
   interface Window {
     kakao: any
