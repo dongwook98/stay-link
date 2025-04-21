@@ -1,20 +1,15 @@
 import cn from 'classnames'
-import { DetailFilterType, FilterValue } from '.'
+import { useAtom } from 'jotai'
 
-interface FilterComponentProps {
-  filterValue: FilterValue
-  setFilterValue: React.Dispatch<React.SetStateAction<FilterValue>>
-  setDetailFilter: React.Dispatch<React.SetStateAction<DetailFilterType | null>>
-}
+import { filterTypeState, filterValueState } from '@/atom/filter'
+import FilterLayout from './FilterLayout'
 
-export const LocationFilter = ({
-  filterValue,
-  setFilterValue,
-  setDetailFilter,
-}: FilterComponentProps) => {
+export const LocationFilter = () => {
+  const [filterValue, setFilterValue] = useAtom(filterValueState)
+  const [filterType, setFilterType] = useAtom(filterTypeState)
+
   return (
-    <div className="absolute top-[19rem] sm:top-[70px] border border-gray-200 px-8 py-10 flex flex-col bg-white w-full mx-auto inset-x-0 sm:max-w-3xl sm:w-[780px] rounded-xl">
-      <div className="text-sm font-semibold">지역으로 검색하기</div>
+    <FilterLayout title="지역으로 검색하기" isShow={filterType === 'location'}>
       <div className="flex flex-wrap gap-4 mt-4">
         {['서울', '부산', '대구', '인천', '광주', '대전', '울산']?.map(
           (value) => (
@@ -32,7 +27,7 @@ export const LocationFilter = ({
                   ...filterValue,
                   location: value,
                 })
-                setDetailFilter('checkIn')
+                setFilterType('checkIn')
               }}
             >
               {value}
@@ -40,6 +35,6 @@ export const LocationFilter = ({
           ),
         )}
       </div>
-    </div>
+    </FilterLayout>
   )
 }

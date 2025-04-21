@@ -3,18 +3,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+import { useAtom, useAtomValue } from 'jotai'
 import { MdModeOfTravel } from 'react-icons/md'
 import { RxDividerVertical } from 'react-icons/rx'
-import { AiOutlineSearch } from 'react-icons/ai'
-
-import { AiOutlineMenu } from 'react-icons/ai'
-import { AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai'
 
 import cn from 'classnames'
-import { LocationFilter } from './LocationFilter'
-import { CheckInFilter } from './CheckInFilter'
-import { CheckOutFilter } from './CheckOutFilter'
-import { GuestFilter } from './GuestFilter'
+
+import { SearchFilter } from './Filter'
+import { filterTypeState, filterValueState } from '@/atom/filter'
 
 const menus = [
   { id: 1, title: '로그인', url: '/users/login' },
@@ -22,26 +19,12 @@ const menus = [
   { id: 3, title: 'FAQ', url: '/faqs' },
 ]
 
-export type DetailFilterType = 'location' | 'checkIn' | 'checkOut' | 'guest'
-export interface FilterValue {
-  location: string
-  checkIn: string
-  checkOut: string
-  guest: number
-}
-
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>(false)
-  const [detailFilter, setDetailFilter] = useState<null | DetailFilterType>(
-    null,
-  )
-  const [filterValue, setFilterValue] = useState<FilterValue>({
-    location: '',
-    checkIn: '',
-    checkOut: '',
-    guest: 0,
-  })
+  const [filterType, setFilterType] = useAtom(filterTypeState)
+  const filterValue = useAtomValue(filterValueState)
+
   const router = useRouter()
 
   return (
@@ -117,11 +100,11 @@ export default function Navbar() {
             <div className="grid grid-cols-1 sm:grid-cols-4 w-full relative sm:pl-2">
               <button
                 type="button"
-                onClick={() => setDetailFilter('location')}
+                onClick={() => setFilterType('location')}
                 className={cn(
                   'font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6 text-left',
                   {
-                    'shadow bg-white': detailFilter === 'location',
+                    'shadow bg-white': filterType === 'location',
                   },
                 )}
               >
@@ -132,11 +115,11 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                onClick={() => setDetailFilter('checkIn')}
+                onClick={() => setFilterType('checkIn')}
                 className={cn(
                   'font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6 text-left',
                   {
-                    'shadow bg-white': detailFilter === 'checkIn',
+                    'shadow bg-white': filterType === 'checkIn',
                   },
                 )}
               >
@@ -147,11 +130,11 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                onClick={() => setDetailFilter('checkOut')}
+                onClick={() => setFilterType('checkOut')}
                 className={cn(
                   'font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6 text-left',
                   {
-                    'shadow bg-white': detailFilter === 'checkOut',
+                    'shadow bg-white': filterType === 'checkOut',
                   },
                 )}
               >
@@ -162,11 +145,11 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                onClick={() => setDetailFilter('guest')}
+                onClick={() => setFilterType('guest')}
                 className={cn(
                   'font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6 text-left',
                   {
-                    'shadow bg-white': detailFilter === 'guest',
+                    'shadow bg-white': filterType === 'guest',
                   },
                 )}
               >
@@ -175,41 +158,14 @@ export default function Navbar() {
                   {`${filterValue?.guest} 명` || '게스트 추가'}
                 </div>
               </button>
-              {detailFilter === 'location' && (
-                <LocationFilter
-                  filterValue={filterValue}
-                  setFilterValue={setFilterValue}
-                  setDetailFilter={setDetailFilter}
-                />
-              )}
-              {detailFilter === 'checkIn' && (
-                <CheckInFilter
-                  filterValue={filterValue}
-                  setFilterValue={setFilterValue}
-                  setDetailFilter={setDetailFilter}
-                />
-              )}
-              {detailFilter === 'checkOut' && (
-                <CheckOutFilter
-                  filterValue={filterValue}
-                  setFilterValue={setFilterValue}
-                  setDetailFilter={setDetailFilter}
-                />
-              )}
-              {detailFilter === 'guest' && (
-                <GuestFilter
-                  filterValue={filterValue}
-                  setFilterValue={setFilterValue}
-                  setDetailFilter={setDetailFilter}
-                />
-              )}
+              <SearchFilter />
             </div>
             <button
               type="button"
               className="bg-rose-600 text-white rounded-full h-10 mx-4 sm:w-24 mt-4 sm:mt-2 my-auto flex justify-center gap-1 px-3 py-2 hover:shadow hover:bg-rose-500"
               onClick={() => {
                 setShowFilter(false)
-                setDetailFilter(null)
+                setFilterType(null)
               }}
             >
               <AiOutlineSearch className="font-semibold text-xl my-auto" />

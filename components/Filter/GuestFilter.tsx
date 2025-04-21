@@ -1,25 +1,19 @@
 import { useState } from 'react'
+import { useAtom, useAtomValue } from 'jotai'
 import cn from 'classnames'
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai'
 
-import { DetailFilterType, FilterValue } from '.'
+import { filterTypeState, filterValueState } from '@/atom/filter'
+import FilterLayout from './FilterLayout'
 
-interface FilterComponentProps {
-  filterValue: FilterValue
-  setFilterValue: React.Dispatch<React.SetStateAction<FilterValue>>
-  setDetailFilter: React.Dispatch<React.SetStateAction<DetailFilterType | null>>
-}
+export const GuestFilter = () => {
+  const [filterValue, setFilterValue] = useAtom(filterValueState)
+  const filterType = useAtomValue(filterTypeState)
 
-export const GuestFilter = ({
-  filterValue,
-  setFilterValue,
-  setDetailFilter,
-}: FilterComponentProps) => {
   const [counter, setCounter] = useState<number>(filterValue.guest || 0)
 
   return (
-    <div className="absolute top-[19rem] sm:top-[70px] border border-gray-200 px-8 py-10 flex flex-col bg-white w-full mx-auto inset-x-0 sm:max-w-3xl sm:w-[780px] rounded-xl">
-      <div className="text-sm font-semibold">게스트 수 추가하기</div>
+    <FilterLayout title="게스트 수 추가하기" isShow={filterType === 'guest'}>
       <div className="mt-4 border border-gray-200 rounded-lg py-2 px-4 flex justify-between items-center">
         <div>
           <div className="font-semibold text-sm">게스트 수 추가</div>
@@ -39,9 +33,7 @@ export const GuestFilter = ({
             }}
           >
             <AiOutlineMinusCircle
-              className={cn('m-auto', {
-                'text-gray-200': counter <= 0,
-              })}
+              className={cn('m-auto', { 'text-gray-200': counter <= 0 })}
             />
           </button>
           <div className="w-3 text-center">{counter}</div>
@@ -63,6 +55,6 @@ export const GuestFilter = ({
           </button>
         </div>
       </div>
-    </div>
+    </FilterLayout>
   )
 }
