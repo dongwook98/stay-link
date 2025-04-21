@@ -111,6 +111,21 @@ async function seedRooms() {
   }
 }
 
+async function seedFaqs() {
+  Array.from({ length: 10 }, (v, i) => i).forEach(async () => {
+    const faqData = {
+      title: faker.lorem.words(),
+      desc: faker.lorem.paragraph(),
+    }
+
+    const res = await prisma.faq.create({
+      data: faqData,
+    })
+
+    console.log(res)
+  })
+}
+
 // 서울 위도/경도 값 랜덤 함수
 function getRandomLatitude() {
   const minLatitude = 37.4316
@@ -139,8 +154,9 @@ function getRandomLongtitude() {
 }
 
 async function main() {
-  await seedUsers()
-  await seedRooms()
+  // await seedUsers()
+  // await seedRooms()
+  await seedFaqs()
 }
 
 main()
