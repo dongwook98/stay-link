@@ -7,4 +7,12 @@ export interface User {
   image?: string
   desc?: string
   rooms?: Room[]
+  accounts: Account[]
+  address?: string
+  phone?: string
+}
+
+interface Account {
+  id: string
+  provider: string
 }

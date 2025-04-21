@@ -51,6 +51,8 @@ model User {
   name  String?
   image String?
   desc  String?
+  phone String?
+  address String?
   rooms Room[]
   accounts      Account[]
   sessions      Session[]
