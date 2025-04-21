@@ -8,7 +8,7 @@ import axios from 'axios'
 import { selectedRoomState } from '@/atom/map'
 import { DEFAULT_LAT, DEFAULT_LNG, ZOOM_LEVEL } from '@/constants/map'
 import { Room } from '@/interface/room'
-import { FullPageLoader } from '../FullPageLoader'
+import FullPageLoader from '@/components/FullPageLoader'
 
 /*global kakao*/
 declare global {
@@ -31,7 +31,7 @@ export default function Map() {
   })
 
   // @see - https://apis.map.kakao.com/web/documentation/#load
-  const loadKakoMap = () => {
+  const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
       const mapContainer = document.getElementById('map')
       const mapOption = {
@@ -97,7 +97,7 @@ export default function Map() {
           strategy="afterInteractive"
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
-          onReady={loadKakoMap}
+          onReady={loadKakaoMap}
         />
       ) : (
         <FullPageLoader />

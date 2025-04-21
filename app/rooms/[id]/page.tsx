@@ -1,5 +1,6 @@
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
+import MapSection from '@/components/RoomDetail/MapSection'
 import { Room } from '@/interface/room'
 
 export default async function RoomDetailPage({
@@ -14,6 +15,7 @@ export default async function RoomDetailPage({
     <div className="mt-8 mb-20 max-w-6xl mx-auto">
       <HeaderSection data={data} />
       <FeatureSection data={data} />
+      <MapSection data={data} />
     </div>
   )
 }
