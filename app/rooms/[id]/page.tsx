@@ -1,3 +1,4 @@
+import Comment from '@/components/Comment'
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import MapSection from '@/components/RoomDetail/MapSection'
@@ -15,6 +16,7 @@ export default async function RoomDetailPage({
     <div className="mt-8 mb-20 max-w-6xl mx-auto">
       <HeaderSection data={data} />
       <FeatureSection data={data} />
+      <Comment room={data} />
       <MapSection data={data} />
     </div>
   )

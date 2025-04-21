@@ -13,7 +13,7 @@ import { RefObject, useState, useEffect } from 'react'
  */
 function useIntersectionObserver(
   elementRef: RefObject<Element>,
-  { threshold = 0.1, root = null, rootMargin = '0%' },
+  { threshold = 0.1, root = null, rootMargin = '0%', enableObserver = true },
 ) {
   // 현재 관찰된 결과를 저장하는 상태
   const [entry, setEntry] = useState<IntersectionObserverEntry>()
@@ -38,7 +38,13 @@ function useIntersectionObserver(
 
     // 클린업 함수: 컴포넌트가 unmount 되거나 의존성이 바뀌면 옵저버 해제
     return () => observer.disconnect()
-  }, [elementRef?.current, root, rootMargin, JSON.stringify(threshold)])
+  }, [
+    elementRef?.current,
+    root,
+    rootMargin,
+    JSON.stringify(threshold),
+    enableObserver,
+  ])
 
   return entry // 관찰 결과 반환
 }

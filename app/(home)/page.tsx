@@ -58,6 +58,8 @@ export default function Home() {
         fetchNextPage()
       }, 500)
     }
+
+    return () => clearTimeout(timerId)
   }, [fetchNextPage, hasNextPage, isPageEnd])
 
   return (

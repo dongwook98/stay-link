@@ -191,7 +191,6 @@ export default function FeatureSection({ data }: { data: Room }) {
           <h1 className="font-semibold text-xl mb-2">캘린더</h1>
           <CalendarSection />
         </div>
-        {/* <Comment /> */}
       </div>
       <BookingSection data={data} />
     </div>
