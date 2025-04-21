@@ -1,3 +1,5 @@
+import { Booking } from './booking'
+import { Comment } from './comment'
 import { Room } from './room'
 
 export interface User {
@@ -10,6 +12,8 @@ export interface User {
   accounts: Account[]
   address?: string
   phone?: string
+  comments?: Comment[]
+  bookings?: Booking[]
 }
 
 interface Account {

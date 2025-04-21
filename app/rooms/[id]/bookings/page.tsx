@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import Image from 'next/image'
-
+import SubmitButton from '@/components/Booking/SubmitButton'
 import { BLUR_DATA_URL } from '@/constants/placeholder'
 import { Room } from '@/interface/room'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export interface Props {
   params: { id: string }
@@ -76,17 +76,10 @@ export default async function BookingPage({ params, searchParams }: Props) {
             <div>
               <h3>총 합계</h3>
               <div className="text-sm mt-1 text-gray-800">
-                {totalAmount?.toLocaleString()}원
+                {parseInt(totalAmount)?.toLocaleString()}원
               </div>
             </div>
-            <div>
-              <button
-                type="button"
-                className="bg-rose-600 hover:bg-rose-500 px-6 py-3 text-white rounded-md w-full"
-              >
-                확인 및 결제
-              </button>
-            </div>
+            <SubmitButton />
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { Booking } from './booking'
+import { Comment } from './comment'
 import { Like } from './like'
 import { User } from './user'
 
@@ -25,4 +27,6 @@ export interface Room {
   hasBarBeQue: boolean
   hasFreeParking: boolean
   likes?: Like[]
+  comments?: Comment[]
+  bookings?: Booking[]
 }
