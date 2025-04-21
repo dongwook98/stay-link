@@ -9,4 +9,5 @@ export const filterValueState = atom<FilterValue>({
   checkIn: '',
   checkOut: '',
   guest: 0,
+  category: '',
 })

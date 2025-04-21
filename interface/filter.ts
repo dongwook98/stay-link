@@ -5,4 +5,5 @@ export interface FilterValue {
   checkIn: string
   checkOut: string
   guest: number
+  category: string
 }
