@@ -1,3 +1,4 @@
+import { Like } from './like'
 import { User } from './user'
 
 export interface Room {
@@ -23,4 +24,5 @@ export interface Room {
   hasWifi: boolean
   hasBarBeQue: boolean
   hasFreeParking: boolean
+  likes?: Like[]
 }
