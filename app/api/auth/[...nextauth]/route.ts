@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import prisma from '@/utils/db'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 
+import NaverProvider from 'next-auth/providers/naver'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions: NextAuthOptions = {
@@ -15,6 +16,10 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID || '',
+      clientSecret: process.env.NAVER_CLIENT_SECRET || '',
     }),
   ],
   pages: {
