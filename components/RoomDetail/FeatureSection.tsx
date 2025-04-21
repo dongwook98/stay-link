@@ -16,6 +16,7 @@ import { GiBarbecue } from 'react-icons/gi'
 import { FeatureDesc } from '@/constants/room-detail-feature-section'
 import BookingSection from './BookingSection'
 import CalendarSection from './CalendarSection'
+import Comment from '../Comment'
 
 export default function FeatureSection({ data }: { data: Room }) {
   return (
@@ -190,12 +191,7 @@ export default function FeatureSection({ data }: { data: Room }) {
           <h1 className="font-semibold text-xl mb-2">캘린더</h1>
           <CalendarSection />
         </div>
-        <div className="py-8 px-4 border-b border-gray-300 leading-8 text-gray-800">
-          <h1 className="font-semibold text-xl mb-2">후기</h1>
-          <div className="mt-4 rounded-lg p-5 border border-gray-300">
-            후기가 들어갑니다
-          </div>
-        </div>
+        {/* <Comment /> */}
       </div>
       <BookingSection data={data} />
     </div>
