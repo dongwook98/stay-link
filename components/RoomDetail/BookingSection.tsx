@@ -1,14 +1,26 @@
 'use client'
 
-import { useAtom } from 'jotai'
+import { useRouter } from 'next/navigation'
+import { useAtom, useAtomValue } from 'jotai'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 
-import { filterValueState } from '@/atom/filter'
 import { Room } from '@/interface/room'
+import { filterValueState } from '@/atom/filter'
+import { calculatedFilterState } from '@/atom/filter'
 
 export default function BookingSection({ data }: { data: Room }) {
+  const router = useRouter()
   const [filterValue, setFilterValue] = useAtom(filterValueState)
+  const { dayCount, guestCount } = useAtomValue(calculatedFilterState)
+
+  const totalAmount = data?.price * dayCount
+  const checkFormValid = totalAmount > 0 && guestCount > 0
+
+  const handleSubmit = () =>
+    router.push(
+      `/rooms/${data.id}/bookings?checkIn=${filterValue?.checkIn}&checkOut=${filterValue?.checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}`,
+    )
 
   const onChangeCheckIn = (e: any) => {
     setFilterValue({
@@ -80,8 +92,10 @@ export default function BookingSection({ data }: { data: Room }) {
           </div>
           <div className="mt-6">
             <button
-              type="submit"
-              className="bg-rose-500 hover:bg-rose-600 text-white rounded-md py-2.5 w-full"
+              type="button"
+              disabled={!checkFormValid}
+              onClick={handleSubmit}
+              className="bg-rose-500 hover:bg-rose-600 text-white rounded-md py-2.5 w-full disabled:bg-gray-300"
             >
               예약하기
             </button>
@@ -93,19 +107,21 @@ export default function BookingSection({ data }: { data: Room }) {
         <div className="mt-4 flex flex-col gap-2 border-b border-b-gray-300 pb-4 text-xs md:text-sm">
           <div className="flex justify-between">
             <div className="text-gray-600 underline underline-offset-4">
-              {data?.price?.toLocaleString()} x 5박
+              {data?.price?.toLocaleString()} x {dayCount}박
             </div>
-            <div className="text-gray-500">₩271,470</div>
+            <div className="text-gray-500">
+              ₩{totalAmount?.toLocaleString()}
+            </div>
           </div>
           <div className="flex justify-between">
             <div className="text-gray-600 underline underline-offset-4">
-              StayLink 수수료
+              nextBnb 수수료
             </div>
             <div className="text-gray-500">₩0</div>
           </div>
           <div className="flex justify-between mt-6">
             <div>총 합계</div>
-            <div>₩271,470</div>
+            <div>₩{totalAmount?.toLocaleString()}</div>
           </div>
         </div>
       </div>
