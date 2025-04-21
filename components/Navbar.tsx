@@ -15,7 +15,7 @@ import { filterTypeState, filterValueState } from '@/atom/filter'
 import Link from 'next/link'
 
 const menus = [
-  { id: 1, title: '로그인', url: '/users/login' },
+  { id: 1, title: '로그인', url: '/users/signin' },
   { id: 2, title: '회원가입', url: '/users/signup' },
   { id: 3, title: 'FAQ', url: '/faqs' },
 ]
