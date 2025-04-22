@@ -10,7 +10,7 @@ export default function CategoryList() {
   const [filterValue, setFilterValue] = useAtom(filterValueState)
 
   return (
-    <div className="flex gap-6 fixed top-20 inset-x-0 mx-auto overflow-x-scroll w-full flex-nowrap sm:pl-24 sm:pr-16 px-2 bg-white z-10 mb-6">
+    <div className="flex gap-6 border-b border-b-gray-200 fixed top-20 inset-x-0 mx-auto overflow-x-auto w-full flex-nowrap sm:pl-24 sm:pr-16 px-2 bg-white z-10 mb-6">
       {CATEGORY_DATA?.map((category) => (
         <button
           type="button"

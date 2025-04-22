@@ -5,6 +5,9 @@ const nextConfig = {
       {
         hostname: 'loremflickr.com',
       },
+      {
+        hostname: 'res.cloudinary.com',
+      },
     ],
   },
 }

@@ -42,7 +42,7 @@ export default function RoomRegisterCategory() {
               key={category.title}
               onClick={() => setSelectedCategory(category.title)}
               className={cn(
-                'border-2 hover:bg-black/5 rounded-md px-6 py-4 flex flex-col gap-2',
+                'border-2 hover:bg-black/5 rounded-md px-6 py-4 flex flex-col items-center justify-center gap-2',
                 {
                   'border-2 border-black': selectedCategory === category.title,
                 },
