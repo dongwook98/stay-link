@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 
 import { BLUR_DATA_URL } from '@/constants/placeholder'
 import { Booking } from '@/interface/booking'
+import RefundButton from '@/components/Booking/RefundButton'
 
 export default async function BookingDetailPage({
   params,
@@ -67,15 +68,7 @@ export default async function BookingDetailPage({
             </div>
           </div>
         </section>
-        <section className="flex flex-col gap-4">
-          <button
-            type="button"
-            disabled={!canRefund}
-            className="bg-rose-600 hover:bg-rose-500 text-white rounded-md disabled:bg-gray-300 px-5 py-2.5"
-          >
-            예약 취소하기
-          </button>
-        </section>
+        <RefundButton booking={booking} canRefund={canRefund} />
       </div>
     </div>
   )

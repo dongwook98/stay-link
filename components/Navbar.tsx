@@ -1,30 +1,51 @@
 'use client'
 
-import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { useAtom, useAtomValue } from 'jotai'
 
 import { MdModeOfTravel } from 'react-icons/md'
 import { RxDividerVertical } from 'react-icons/rx'
-import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai'
+import {
+  AiOutlineSearch,
+  AiOutlineMenu,
+  AiOutlineUser,
+  AiOutlineLogout,
+} from 'react-icons/ai'
+import {
+  HiOutlineLogin,
+  HiOutlineUserAdd,
+  HiOutlineQuestionMarkCircle,
+} from 'react-icons/hi'
 
 import cn from 'classnames'
 
 import { SearchFilter } from './Filter'
 import { filterTypeState, filterValueState } from '@/atom/filter'
-import Link from 'next/link'
 
 const LOGOUT_USER_MENU = [
-  { id: 1, title: '로그인', url: '/users/signin' },
-  { id: 2, title: '회원가입', url: '/users/signin' },
-  { id: 3, title: 'FAQ', url: '/faqs' },
+  { id: 1, title: '로그인', url: '/users/signin', icon: <HiOutlineLogin /> },
+  {
+    id: 2,
+    title: '회원가입',
+    url: '/users/signin',
+    icon: <HiOutlineUserAdd />,
+  },
+  { id: 3, title: 'FAQ', url: '/faqs', icon: <HiOutlineQuestionMarkCircle /> },
 ]
 
 const LOGIN_USER_MENU = [
-  { id: 1, title: '마이페이지', url: '/users/mypage' },
-  { id: 2, title: 'FAQ', url: '/faqs' },
-  { id: 3, title: '로그아웃', url: '#', signOut: true },
+  { id: 1, title: '마이페이지', url: '/users/mypage', icon: <AiOutlineUser /> },
+  { id: 2, title: 'FAQ', url: '/faqs', icon: <HiOutlineQuestionMarkCircle /> },
+  {
+    id: 3,
+    title: '로그아웃',
+    url: '#',
+    signOut: true,
+    icon: <AiOutlineLogout />,
+  },
 ]
 
 export default function Navbar() {
@@ -217,27 +238,32 @@ export default function Navbar() {
                   <button
                     type="button"
                     key={menu.id}
-                    className="h-10 hover:bg-gray-50 pl-3 text-sm text-gray-700 text-left"
+                    className="h-10 hover:bg-gray-50 pl-3 pr-4 w-full flex items-center gap-2 text-sm text-gray-700 text-left"
                     onClick={() => {
                       router.push(menu.url)
                       setShowMenu(false)
                     }}
                   >
-                    {menu.title}
+                    <span className="text-lg text-gray-500">{menu.icon}</span>
+                    <span>{menu.title}</span>
                   </button>
                 ))
               : LOGIN_USER_MENU?.map((menu) => (
                   <button
                     type="button"
                     key={menu.id}
-                    className="h-10 hover:bg-gray-50 pl-3 text-sm text-gray-700 text-left"
+                    className="h-10 hover:bg-gray-50 pl-3 pr-4 w-full flex items-center gap-2 text-sm text-gray-700 text-left"
                     onClick={() => {
-                      menu.signOut ? signOut({ callbackUrl: '/' }) : null
-                      router.push(menu.url)
+                      if (menu.signOut) {
+                        signOut({ callbackUrl: '/' })
+                      } else {
+                        router.push(menu.url)
+                      }
                       setShowMenu(false)
                     }}
                   >
-                    {menu.title}
+                    <span className="text-lg text-gray-500">{menu.icon}</span>
+                    <span>{menu.title}</span>
                   </button>
                 ))}
           </div>
