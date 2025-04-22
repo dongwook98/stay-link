@@ -29,7 +29,7 @@ interface RoomFeatureProps {
   hasFreeLaundry?: boolean
   hasAirConditioner?: boolean
   hasWifi?: boolean
-  hasBarbeque?: boolean
+  hasBarBeQue?: boolean
   hasFreeParking?: boolean
 }
 
@@ -55,7 +55,7 @@ export default function RoomRegisterFeature() {
       hasFreeLaundry: data.hasFreeLaundry,
       hasAirConditioner: data.hasAirConditioner,
       hasWifi: data.hasWifi,
-      hasBarBeQue: data.hasBarbeque,
+      hasBarBeQue: data.hasBarBeQue,
       hasFreeParking: data.hasFreeParking,
     })
     router.push('/rooms/register/image')
@@ -71,7 +71,7 @@ export default function RoomRegisterFeature() {
       setValue('hasFreeLaundry', roomForm?.hasFreeLaundry)
       setValue('hasAirConditioner', roomForm?.hasAirConditioner)
       setValue('hasWifi', roomForm?.hasWifi)
-      setValue('hasBarbeque', roomForm?.hasBarBeQue)
+      setValue('hasBarBeQue', roomForm?.hasBarBeQue)
       setValue('hasFreeParking', roomForm?.hasFreeParking)
     }
   }, [roomForm, setValue])
@@ -202,12 +202,12 @@ export default function RoomRegisterFeature() {
           <label
             className={cn(
               'border-2 rounded-md hover:bg-black/5 px-6 py-4 flex flex-col gap-2',
-              { 'border-2 border-black': !!watch('hasBarbeque') },
+              { 'border-2 border-black': !!watch('hasBarBeQue') },
             )}
           >
             <input
               type="checkbox"
-              {...register('hasBarbeque')}
+              {...register('hasBarBeQue')}
               className="hidden"
             />
             <GiBarbecue className="text-lg md:text-2xl" />
@@ -216,12 +216,12 @@ export default function RoomRegisterFeature() {
           <label
             className={cn(
               'border-2 rounded-md hover:bg-black/5 px-6 py-4 flex flex-col gap-2',
-              { 'border-2 border-black': !!watch('hasBarbeque') },
+              { 'border-2 border-black': !!watch('hasFreeParking') },
             )}
           >
             <input
               type="checkbox"
-              {...register('hasBarbeque')}
+              {...register('hasFreeParking')}
               className="hidden"
             />
             <TbParkingCircle className="text-lg md:text-2xl" />
