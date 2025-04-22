@@ -115,7 +115,7 @@ export default function BookingSection({ data }: { data: Room }) {
           </div>
           <div className="flex justify-between">
             <div className="text-gray-600 underline underline-offset-4">
-              nextBnb 수수료
+              StayLink 수수료
             </div>
             <div className="text-gray-500">₩0</div>
           </div>

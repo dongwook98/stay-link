@@ -1,3 +1,4 @@
+import { Payment } from './payment'
 import { Room } from './room'
 import { User } from './user'
 
@@ -15,4 +16,5 @@ export interface Booking {
   user: User
   createAt: string
   updatedAt: string
+  payments?: Payment[]
 }
