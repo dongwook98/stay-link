@@ -6,6 +6,7 @@ import { User } from './user'
 export interface Room {
   id: number
   images: string[]
+  imageKeys?: string[]
   title: string
   address: string
   desc?: string
@@ -29,10 +30,13 @@ export interface Room {
   likes?: Like[]
   comments?: Comment[]
   bookings?: Booking[]
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface RoomForm {
   images?: string[]
+  imageKeys?: string[]
   title?: string
   address?: string
   desc?: string

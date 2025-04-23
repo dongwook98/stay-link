@@ -14,17 +14,11 @@ import Stepper from '@/components/Form/Stepper'
 import NextButton from '@/components/Form/NextButton'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { deleteImagesFromCloudinary } from './_actions/deleteImagesFromCloudinary'
 
 interface RoomImageProps {
   images?: string[]
 }
-
-const IMAGE_URLS = [
-  'https://loremflickr.com/500/500/hotel?lock=2398148622286848',
-  'https://loremflickr.com/500/500/travel?lock=46018368372736',
-  'https://loremflickr.com/500/500/nature?lock=7854363563261952',
-  'https://loremflickr.com/500/500/building?lock=7014313585803264',
-]
 
 export default function RoomRegisterImage() {
   const { data: session } = useSession()
@@ -33,6 +27,7 @@ export default function RoomRegisterImage() {
   const [images, setImages] = useState<string[] | null>(null)
   console.log('🚀 ~ RoomRegisterImage ~ images:', images)
   const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
+  const imageKeys: string[] = []
 
   const {
     register,
@@ -70,16 +65,16 @@ export default function RoomRegisterImage() {
     if (!images) return
 
     const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`
-    const cloudinaryPreset = `${process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}` // 클라우디너리의 업로드 프리셋을 여기에 입력하세요.
+    const cloudinaryPreset = `${process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}`
 
     for (const imageFile of images) {
       const formData = new FormData()
       formData.append('file', imageFile)
       formData.append('upload_preset', cloudinaryPreset)
-      formData.append(
-        'public_id',
-        `${session?.user.id}/${roomForm?.title}/${uuidv4()}`,
-      )
+      const imageKey = uuidv4()
+      const publicId = `${session?.user.id}/${roomForm?.title}/${imageKey}`
+      formData.append('public_id', publicId)
+      imageKeys.push(imageKey)
 
       try {
         // 클라우디너리 API로 이미지 업로드
@@ -88,6 +83,7 @@ export default function RoomRegisterImage() {
             'Content-Type': 'multipart/form-data',
           },
         })
+
         uploadedImageUrls.push(response.data.secure_url) // 업로드된 이미지 URL 저장
       } catch (error) {
         console.error('Error uploading images to Cloudinary:', error)
@@ -105,6 +101,7 @@ export default function RoomRegisterImage() {
           const result = await axios.post('/api/rooms', {
             ...roomForm,
             images: imageUrls,
+            imageKeys: imageKeys,
           })
 
           if (result.status === 200) {
@@ -118,11 +115,13 @@ export default function RoomRegisterImage() {
         .catch((error) => {
           console.error(error)
           toast.error('이미지 저장중에 문제가 발생했습니다. 다시 시도해주세요')
+          deleteImagesFromCloudinary(imageKeys, roomForm?.title as string)
         })
     } catch (e) {
-      setDisableSubmit(false)
       console.log(e)
       toast.error('다시 시도해주세요')
+    } finally {
+      setDisableSubmit(false)
     }
   }
 
