@@ -8,10 +8,9 @@ export const config = {
     '/users/edit',
     '/users/likes',
     '/users/comments',
+    '/users/rooms',
     '/users/bookings/:path*',
-    '/payments',
-    '/payments/success',
-    '/payments/failure',
+    '/payments/:path*',
     '/rooms/register/:path',
   ],
 }
