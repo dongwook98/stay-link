@@ -1,9 +1,9 @@
 import type { Metadata, ResolvingMetadata } from 'next'
+import dynamic from 'next/dynamic'
 
-import Comment from '@/components/Comment'
+import Loader from '@/components/Loader'
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
-import MapSection from '@/components/RoomDetail/MapSection'
 import { Room } from '@/interface/room'
 
 interface Props {
@@ -16,6 +16,17 @@ export default async function RoomDetailPage({ params }: Props) {
   const { id } = params
   const data: Room = await getRoomDetail(id)
 
+  const Comment = dynamic(() => import('@/components/Comment'), {
+    loading: () => <Loader />,
+  })
+
+  const MapSection = dynamic(
+    () => import('@/components/RoomDetail/MapSection'),
+    {
+      loading: () => <Loader />,
+      ssr: false,
+    },
+  )
   return (
     <div className="mt-8 mb-20 max-w-6xl mx-auto">
       <HeaderSection data={data} />
