@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next build && next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "ANALYZE=true npm run build && open .next/analyze/client.html"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -14,6 +15,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.0",
     "@headlessui/react": "^2.2.2",
+    "@next/bundle-analyzer": "^15.3.1",
     "@prisma/client": "^6.6.0",
     "@tanstack/react-query": "^5.74.4",
     "@tanstack/react-query-devtools": "^5.74.4",
