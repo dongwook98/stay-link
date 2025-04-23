@@ -12,11 +12,13 @@ import 'dayjs/locale/ko'
 import { Room } from '@/interface/room'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import Loader from '@/components/Loader'
+import { deleteImagesFromCloudinary } from '@/app/_actions/deleteImagesFromCloudinary'
+import toast from 'react-hot-toast'
 
 export default function UserRooms() {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const pageRef = useIntersectionObserver(ref, {})
-  const isPageEnd = !!pageRef?.isIntersecting
+  const observerRef = useRef<HTMLDivElement | null>(null)
+  const observerEntry = useIntersectionObserver(observerRef, {})
+  const isPageEnd = !!observerEntry?.isIntersecting
   const { data: session } = useSession()
 
   const fetchMyRooms = async ({ pageParam = 1 }) => {
@@ -37,6 +39,7 @@ export default function UserRooms() {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
+    refetch,
   } = useInfiniteQuery({
     queryKey: [`rooms-user-${session?.user.id}`],
     queryFn: fetchMyRooms,
@@ -44,6 +47,28 @@ export default function UserRooms() {
     getNextPageParam: (lastPage) =>
       lastPage?.data.length > 0 ? lastPage.page + 1 : undefined,
   })
+
+  const handleDelete = async (data: Room) => {
+    const confirm = window.confirm('해당 숙소를 삭제하시겠습니까?')
+
+    if (confirm && data) {
+      try {
+        // 먼저 스토리지의 이미지 지우기
+        await deleteImagesFromCloudinary(data.imageKeys as string[], data.title)
+        const result = await axios.delete(`/api/rooms?id=${data.id}`)
+
+        if (result.status === 200) {
+          toast.success('숙소를 삭제했습니다.')
+          refetch()
+        } else {
+          toast.error('데이터 삭제중 문제가 생겼습니다.')
+        }
+      } catch (e) {
+        console.log(e)
+        toast.error('다시 시도해주세요')
+      }
+    }
+  }
 
   useEffect(() => {
     let timerId: NodeJS.Timeout | undefined
@@ -138,6 +163,9 @@ export default function UserRooms() {
                   <td className="px-6 py-4 min-w-[80px]">
                     <button
                       type="button"
+                      onClick={() => {
+                        handleDelete(room)
+                      }}
                       className="font-medium text-gray-600 hover:underline"
                     >
                       삭제
@@ -152,7 +180,7 @@ export default function UserRooms() {
       {(isFetching || hasNextPage || isFetchingNextPage) && (
         <Loader className="my-20" />
       )}
-      <div className="w-full touch-none h-10 mb-10" ref={ref} />
+      <div className="w-full touch-none h-10 mb-10" ref={observerRef} />
     </div>
   )
 }

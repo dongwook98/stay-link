@@ -17,7 +17,7 @@ import { toast } from 'react-hot-toast'
 import { RoomForm, Room } from '@/interface/room'
 import AddressSearch from './AddressSearch'
 import { RoomFeatureProps } from '@/constants'
-import { deleteImagesFromCloudinary } from '@/app/rooms/(form)/register/image/_actions/deleteImagesFromCloudinary'
+import { deleteImagesFromCloudinary } from '@/app/_actions/deleteImagesFromCloudinary'
 
 export default function RoomEditForm({ data }: { data: Room }) {
   const router = useRouter()
