@@ -149,16 +149,20 @@ export default async function BookingDetailPage({
 }
 
 async function getBookingDetail(id: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/bookings?id=${id}`,
-    {
-      cache: 'no-store',
-    },
-  )
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/bookings?id=${id}`,
+      {
+        cache: 'no-store',
+      },
+    )
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+
+    return res.json()
+  } catch (error) {
+    console.error(error)
   }
-
-  return res.json()
 }

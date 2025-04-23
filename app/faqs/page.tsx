@@ -23,13 +23,17 @@ export default async function FaqPage() {
 }
 
 async function getFaqs() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/faqs`, {
-    cache: 'force-cache', // SSG
-  })
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/faqs`, {
+      cache: 'force-cache', // SSG
+    })
 
-  if (!res.ok) {
-    throw new Error('failed to fetch Faq data')
+    if (!res.ok) {
+      throw new Error('failed to fetch Faq data')
+    }
+
+    return res.json()
+  } catch (error) {
+    console.error(error)
   }
-
-  return res.json()
 }

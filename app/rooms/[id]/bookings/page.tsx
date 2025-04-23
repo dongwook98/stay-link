@@ -22,7 +22,7 @@ export default async function BookingPage({ params, searchParams }: Props) {
   const guestCount = searchParams.guestCount
   const totalAmount = searchParams.totalAmount
   const totalDays = searchParams.totalDays
-  const data: Room = await getData(id)
+  const data: Room = await getBookingDetail(id)
 
   return (
     <div className="my-28 max-w-6xl mx-auto px-4">
@@ -87,17 +87,21 @@ export default async function BookingPage({ params, searchParams }: Props) {
   )
 }
 
-async function getData(id: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?id=${id}`,
-    {
-      cache: 'no-store',
-    },
-  )
+async function getBookingDetail(id: string) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?id=${id}`,
+      {
+        cache: 'no-store',
+      },
+    )
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+
+    return res.json()
+  } catch (error) {
+    console.error(error)
   }
-
-  return res.json()
 }
