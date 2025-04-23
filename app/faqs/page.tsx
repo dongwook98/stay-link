@@ -1,4 +1,12 @@
+import type { Metadata } from 'next'
+
 import { Faq } from '@/interface/faq'
+
+export const metadata: Metadata = {
+  title: 'StayLink 도움말',
+  description: 'StayLink에 궁금한 점을 확인하세요',
+  keywords: ['StayLink', '도움말', '정보', '여행 팁', '숙소 팁'],
+}
 
 export default async function FaqPage() {
   const data: Faq[] = await getFaqs()

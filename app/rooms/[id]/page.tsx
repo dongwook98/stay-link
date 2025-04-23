@@ -1,14 +1,18 @@
+import type { Metadata, ResolvingMetadata } from 'next'
+
 import Comment from '@/components/Comment'
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import MapSection from '@/components/RoomDetail/MapSection'
 import { Room } from '@/interface/room'
 
-export default async function RoomDetailPage({
-  params,
-}: {
-  params: { id: string }
-}) {
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+export default async function RoomDetailPage({ params }: Props) {
   const { id } = params
   const data: Room = await getRoomDetail(id)
 
@@ -40,5 +44,32 @@ async function getRoomDetail(id: string) {
     return res.json()
   } catch (error) {
     console.error(error)
+  }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
+
+  // fetch data
+  const room = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?id=${id}`,
+    {
+      next: {
+        revalidate: 60 * 60,
+      },
+    },
+  ).then((res) => res.json())
+
+  // optionally access and extend (rather than replace) parent metadata
+  const prevKeywords = (await parent)?.keywords || []
+
+  return {
+    title: `StayLink 숙소 - ${room?.title}`,
+    description: room?.description,
+    keywords: [room?.category, ...prevKeywords],
   }
 }
