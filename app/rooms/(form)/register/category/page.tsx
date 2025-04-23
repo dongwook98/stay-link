@@ -9,6 +9,7 @@ import { roomFormState } from '@/atom/form'
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
 import { CATEGORY_DATA } from '@/constants/category'
+import { FORM_URL } from '@/constants'
 
 export default function RoomRegisterCategory() {
   const router = useRouter()
@@ -21,12 +22,16 @@ export default function RoomRegisterCategory() {
       ...roomForm,
       category: selectedCategory,
     })
-    router.push('/rooms/register/info')
+    router.push(FORM_URL.INFO)
   }
 
   useEffect(() => {
     setSelectedCategory(roomForm?.category || '')
   }, [roomForm])
+
+  useEffect(() => {
+    router.prefetch(FORM_URL.INFO)
+  }, [router])
 
   return (
     <>

@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import Stepper from '@/components/Form/Stepper'
 import NextButton from '@/components/Form/NextButton'
 import AddressSearch from '@/components/Form/AddressSearch'
+import { FORM_URL } from '@/constants'
 
 interface RoomAddressProps {
   address?: string
@@ -28,7 +29,7 @@ export default function RoomRegisterAddress() {
       ...roomForm,
       address: data?.address,
     })
-    router.push('/rooms/register/feature')
+    router.push(FORM_URL.FEATURE)
   }
 
   useEffect(() => {
@@ -36,6 +37,10 @@ export default function RoomRegisterAddress() {
       setValue('address', roomForm.address)
     }
   }, [roomForm, setValue])
+
+  useEffect(() => {
+    router.prefetch(FORM_URL.FEATURE)
+  }, [router])
 
   return (
     <>

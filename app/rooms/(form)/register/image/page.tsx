@@ -14,7 +14,7 @@ import Stepper from '@/components/Form/Stepper'
 import NextButton from '@/components/Form/NextButton'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { deleteImagesFromCloudinary } from '../../../../_actions/deleteImagesFromCloudinary'
+import { deleteImagesFromCloudinary } from '@/app/_actions/deleteImagesFromCloudinary'
 
 interface RoomImageProps {
   images?: string[]

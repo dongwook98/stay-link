@@ -19,6 +19,7 @@ import { MdOutlineLocalLaundryService } from 'react-icons/md'
 import { LuWind } from 'react-icons/lu'
 import { GiBarbecue } from 'react-icons/gi'
 import { TbParkingCircle } from 'react-icons/tb'
+import { FORM_URL } from '@/constants'
 
 interface RoomFeatureProps {
   freeCancel?: boolean
@@ -58,7 +59,7 @@ export default function RoomRegisterFeature() {
       hasBarBeQue: data.hasBarBeQue,
       hasFreeParking: data.hasFreeParking,
     })
-    router.push('/rooms/register/image')
+    router.push(FORM_URL.IMAGE)
   }
 
   useEffect(() => {
@@ -75,6 +76,10 @@ export default function RoomRegisterFeature() {
       setValue('hasFreeParking', roomForm?.hasFreeParking)
     }
   }, [roomForm, setValue])
+
+  useEffect(() => {
+    router.prefetch(FORM_URL.IMAGE)
+  }, [router])
 
   return (
     <>

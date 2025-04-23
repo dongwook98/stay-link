@@ -49,3 +49,11 @@ export const FeatureFormField: FieldProps[] = [
   { field: 'hasBarBeQue', label: '바베큐 시설' },
   { field: 'hasFreeParking', label: '무료 주차' },
 ]
+
+export const FORM_URL = {
+  CATEGORY: '/rooms/register/category',
+  INFO: '/rooms/register/info',
+  ADDRESS: '/rooms/register/address',
+  FEATURE: '/rooms/register/feature',
+  IMAGE: '/rooms/register/image',
+}
