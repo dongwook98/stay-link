@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
 
-import { FilterType, FilterValue } from '@/interface/filter'
+import { FilterType, FilterValue, SearchValue } from '@/interface/filter'
 import dayjs from 'dayjs'
 
 export const filterTypeState = atom<FilterType | null>(null)
@@ -11,6 +11,10 @@ export const filterValueState = atom<FilterValue>({
   checkOut: '',
   guest: 0,
   category: '',
+})
+
+export const searchValueState = atom<SearchValue>({
+  keyword: null,
 })
 
 export const calculatedFilterState = atom((get) => {

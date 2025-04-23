@@ -8,7 +8,9 @@ import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
-
+import RoomSearchFilter from '@/components/Form/RoomSearchFilter'
+import { useAtomValue } from 'jotai'
+import { searchValueState } from '@/atom/filter'
 import { Room } from '@/interface/room'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import Loader from '@/components/Loader'
@@ -20,12 +22,18 @@ export default function UserRooms() {
   const observerEntry = useIntersectionObserver(observerRef, {})
   const isPageEnd = !!observerEntry?.isIntersecting
   const { data: session } = useSession()
+  const searchStateValue = useAtomValue(searchValueState)
+
+  const searchParams = {
+    keyword: searchStateValue.keyword,
+  }
 
   const fetchMyRooms = async ({ pageParam = 1 }) => {
     const { data } = await axios('/api/rooms?my=true&page=' + pageParam, {
       params: {
         limit: 12,
         page: pageParam,
+        ...searchParams,
       },
     })
 
@@ -41,7 +49,7 @@ export default function UserRooms() {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: [`rooms-user-${session?.user.id}`],
+    queryKey: [`rooms-user-${session?.user.id}`, searchParams],
     queryFn: fetchMyRooms,
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
@@ -87,10 +95,11 @@ export default function UserRooms() {
   }
 
   return (
-    <div className="mt-10 mb-40 max-w-7xl mx-auto overflow-auto">
+    <div className="mt-10 mb-40 max-w-7xl mx-auto overflow-auto px-8">
       <h1 className="mb-10 text-lg md:text-2xl font-semibold">
         나의 숙소 관리
       </h1>
+      <RoomSearchFilter />
       <table className="text-sm text-left text-gray-500 shadow-lg overflow-x-scroll table-auto">
         <thead className="text-xs text-gray-700 bg-gray-50">
           <tr>

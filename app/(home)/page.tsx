@@ -2,8 +2,9 @@
 
 import { Fragment, useEffect, useRef } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
-
 import axios from 'axios'
+import { useAtomValue } from 'jotai'
+import { filterValueState } from '@/atom/filter'
 
 import CategoryList from '@/components/CategoryList'
 import Loader from '@/components/Loader'
@@ -18,12 +19,19 @@ export default function Home() {
   const observerRef = useRef<HTMLDivElement | null>(null)
   const observerEntry = useIntersectionObserver(observerRef, {})
   const isPageEnd = !!observerEntry?.isIntersecting
+  const filterValue = useAtomValue(filterValueState)
+
+  const filterParams = {
+    location: filterValue.location,
+    category: filterValue.category,
+  }
 
   const getRooms = async ({ pageParam = 1 }) => {
     const { data } = await axios('/api/rooms', {
       params: {
         limit: 12,
         page: pageParam,
+        ...filterParams,
       },
     })
 
@@ -39,10 +47,10 @@ export default function Home() {
     isError,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ['rooms'],
+    queryKey: ['rooms', filterParams],
     queryFn: ({ pageParam }) => getRooms({ pageParam }),
     initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) =>
+    getNextPageParam: (lastPage) =>
       lastPage?.data?.length > 0 ? lastPage.page + 1 : undefined,
   })
 

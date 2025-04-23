@@ -11,7 +11,7 @@ export const LocationFilter = () => {
   return (
     <FilterLayout title="지역으로 검색하기" isShow={filterType === 'location'}>
       <div className="flex flex-wrap gap-4 mt-4">
-        {['서울', '부산', '대구', '인천', '광주', '대전', '울산']?.map(
+        {['서울', '경기', '부산', '대구', '인천', '광주', '대전', '울산']?.map(
           (value) => (
             <button
               key={value}
@@ -34,6 +34,23 @@ export const LocationFilter = () => {
             </button>
           ),
         )}
+        <button
+          className={cn(
+            'border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500',
+            {
+              'bg-rose-600 text-white': filterValue.location === '',
+            },
+          )}
+          onClick={() => {
+            setFilterValue({
+              ...filterValue,
+              location: '',
+            })
+            setFilterType('checkIn')
+          }}
+        >
+          전체
+        </button>
       </div>
     </FilterLayout>
   )

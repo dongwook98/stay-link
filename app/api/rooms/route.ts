@@ -16,6 +16,11 @@ export async function GET(req: Request) {
   const id = searchParams.get('id') as string
   // 내가 만든 숙소만 가져오기
   const my = searchParams.get('my') as string
+  // 메인 페이지 필터링
+  const location = searchParams.get('location') as string
+  const category = searchParams.get('category') as string
+  // 내가 만든 숙소 필터링
+  const keyword = searchParams.get('keyword') as string
 
   const session = await getServerSession(authOptions)
 
@@ -52,6 +57,7 @@ export async function GET(req: Request) {
     const count = await prisma.room.count({
       where: {
         userId: session?.user?.id,
+        title: keyword ? { contains: keyword } : {},
       },
     })
     const skipPage = parseInt(page) - 1
@@ -60,6 +66,7 @@ export async function GET(req: Request) {
       orderBy: { createdAt: 'desc' },
       where: {
         userId: session?.user.id,
+        title: keyword ? { contains: keyword } : {},
       },
       take: parseInt(limit),
       skip: skipPage * parseInt(limit),
@@ -79,10 +86,14 @@ export async function GET(req: Request) {
   }
 
   if (page) {
-    // 무한 스크롤 로직
+    // 무한 스크롤 로직 (메인 페이지)
     const count = await prisma.room.count()
     const skipPage = parseInt(page) - 1
     const rooms = await prisma.room.findMany({
+      where: {
+        address: location ? { contains: location } : {},
+        category: category ? category : {},
+      },
       orderBy: { createdAt: 'desc' },
       take: parseInt(limit),
       skip: skipPage * parseInt(limit),

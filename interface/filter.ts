@@ -7,3 +7,7 @@ export interface FilterValue {
   guest: number
   category: string
 }
+
+export interface SearchValue {
+  keyword: string | null
+}
