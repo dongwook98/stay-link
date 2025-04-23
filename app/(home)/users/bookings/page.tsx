@@ -7,6 +7,7 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import { useSession } from 'next-auth/react'
 
+import { BLUR_DATA_URL } from '@/constants/placeholder'
 import { Booking } from '@/interface/booking'
 import Loader from '@/components/Loader'
 import { BiChevronRight } from 'react-icons/bi'
@@ -70,6 +71,9 @@ export default function BookingsPage() {
                         width={80}
                         height={80}
                         alt="숙소 이미지"
+                        quality={30}
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
                       />
                       <div>
                         <h2 className="font-semibold">

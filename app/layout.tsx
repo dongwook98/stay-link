@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { noto_sans } from './fonts'
 import './globals.css'
 import MainLayout from '@/components/MainLayout'
 import Providers from '@/components/Providers'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stay-link.vercel.app'),
@@ -39,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={noto_sans.className}>
         <Providers>
           <MainLayout>{children}</MainLayout>
         </Providers>
