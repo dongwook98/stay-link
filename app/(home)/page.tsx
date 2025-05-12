@@ -14,6 +14,7 @@ import { Room } from '@/interface/room'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import { LoaderGrid } from '@/components/LoaderGrid'
 import { MapButton } from '@/components/Map/MapButton'
+import EmptyRoomList from '@/components/RoomList/EmptyRoomList'
 
 export default function Home() {
   const observerRef = useRef<HTMLDivElement | null>(null)
@@ -70,22 +71,29 @@ export default function Home() {
     return () => clearTimeout(timerId)
   }, [fetchNextPage, hasNextPage, isPageEnd])
 
+  const isEmpty =
+    !isLoading && rooms?.pages?.every((page) => page?.data?.length === 0)
+
   return (
     <>
       <CategoryList />
-      <GridLayout>
-        {(isLoading || isFetching) && !isFetchingNextPage ? (
-          <LoaderGrid />
-        ) : (
-          rooms?.pages?.map((page, index) => (
-            <Fragment key={index}>
-              {page?.data?.map((room: Room) => (
-                <RoomItem room={room} key={room.id} />
-              ))}
-            </Fragment>
-          ))
-        )}
-      </GridLayout>
+
+      {isEmpty && <EmptyRoomList />}
+      {!isEmpty && (
+        <GridLayout>
+          {(isLoading || isFetching) && !isFetchingNextPage ? (
+            <LoaderGrid />
+          ) : (
+            rooms?.pages?.map((page, index) => (
+              <Fragment key={index}>
+                {page?.data?.map((room: Room) => (
+                  <RoomItem room={room} key={room.id} />
+                ))}
+              </Fragment>
+            ))
+          )}
+        </GridLayout>
+      )}
       <MapButton />
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div ref={observerRef} className="w-full touch-none h-10 mb-10" />

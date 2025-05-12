@@ -62,10 +62,8 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  // read route params
   const id = params.id
 
-  // fetch data
   const room = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?id=${id}`,
     {

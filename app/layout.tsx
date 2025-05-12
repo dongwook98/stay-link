@@ -3,6 +3,7 @@ import { noto_sans } from './fonts'
 import './globals.css'
 import MainLayout from '@/components/MainLayout'
 import Providers from '@/components/Providers'
+import { WebVitals } from '@/components/WebVitals'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stay-link.vercel.app'),
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={noto_sans.className}>
+        <WebVitals />
         <Providers>
           <MainLayout>{children}</MainLayout>
         </Providers>
