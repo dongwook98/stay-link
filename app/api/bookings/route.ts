@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]/route'
 
 import prisma from '@/utils/db'
+import { authOptions } from '@/lib/auth'
 
 interface BookingProps {
   roomId: string

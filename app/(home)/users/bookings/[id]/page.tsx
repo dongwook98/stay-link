@@ -5,13 +5,20 @@ import { BLUR_DATA_URL } from '@/constants/placeholder'
 import { Booking } from '@/interface/booking'
 import RefundButton from '@/components/Booking/RefundButton'
 import { Payment } from '@/interface/payment'
+import { notFound } from 'next/navigation'
+
+type Params = Promise<{ id?: string }>
 
 export default async function BookingDetailPage({
   params,
 }: {
-  params: { id: string }
+  params: Params
 }) {
-  const id = params.id
+  const id = (await params).id
+
+  if (!id) {
+    notFound()
+  }
 
   const booking: Booking = await getBookingDetail(id)
 

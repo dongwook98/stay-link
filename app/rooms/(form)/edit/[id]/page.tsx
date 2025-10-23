@@ -1,12 +1,10 @@
 import RoomEditForm from '@/components/Form/RoomEditForm'
 import { Room } from '@/interface/room'
 
-interface ParamsProps {
-  params: { id: string }
-}
+type Params = Promise<{ id: string }>
 
-export default async function RoomEdit({ params }: ParamsProps) {
-  const id = params.id
+export default async function RoomEdit({ params }: { params: Params }) {
+  const id = (await params).id
   const data: Room = await getRoomDetail(id)
 
   return <RoomEditForm data={data} />

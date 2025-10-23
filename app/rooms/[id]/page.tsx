@@ -7,14 +7,10 @@ import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import { Room } from '@/interface/room'
 import MapSection from '@/components/RoomDetail/MapSectionWrapper'
 
-interface Props {
-  params: {
-    id: string
-  }
-}
+type Params = Promise<{ id: string }>
 
-export default async function RoomDetailPage({ params }: Props) {
-  const { id } = params
+export default async function RoomDetailPage({ params }: { params: Params }) {
+  const id = (await params).id
   const data: Room = await getRoomDetail(id)
 
   const Comment = dynamic(() => import('@/components/Comment'), {
@@ -53,10 +49,10 @@ async function getRoomDetail(id: string) {
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  { params }: { params: Params },
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const id = params.id
+  const id = (await params).id
 
   const room = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?id=${id}`,

@@ -5,23 +5,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export interface Props {
-  params: { id: string }
-  searchParams: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{
     checkIn: string
     checkOut: string
     guestCount: string
     totalAmount: string
     totalDays: string
-  }
+  }>
 }
 
 export default async function BookingPage({ params, searchParams }: Props) {
-  const id = params.id
-  const checkIn = searchParams.checkIn
-  const checkOut = searchParams.checkOut
-  const guestCount = searchParams.guestCount
-  const totalAmount = searchParams.totalAmount
-  const totalDays = searchParams.totalDays
+  const id = (await params).id
+  const checkIn = (await searchParams).checkIn
+  const checkOut = (await searchParams).checkOut
+  const guestCount = (await searchParams).guestCount
+  const totalAmount = (await searchParams).totalAmount
+  const totalDays = (await searchParams).totalDays
   const data: Room = await getBookingDetail(id)
 
   return (

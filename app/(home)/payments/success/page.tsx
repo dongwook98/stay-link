@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
-import { Payment as PaymentType } from '@/interface/payment'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 
 interface PaymentRequestProps {
   paymentKey: string
@@ -32,10 +32,6 @@ interface PaymentResponseProps {
   method?: '카드' | '가상계좌' | '계좌이체'
 }
 
-interface ParamsProps {
-  searchParams: PaymentRequestProps
-}
-
 interface Payment {
   payment?: PaymentResponseProps
   redirect?: {
@@ -43,10 +39,26 @@ interface Payment {
   }
 }
 
-export default async function PaymentSuccess({ searchParams }: ParamsProps) {
-  const paymentKey = searchParams.paymentKey
-  const orderId = searchParams.orderId
-  const amount = searchParams.amount
+type SearchParams = Promise<{
+  paymentKey?: string
+  orderId?: string
+  amount?: string
+}>
+
+export default async function PaymentSuccess({
+  searchParams,
+}: {
+  searchParams: SearchParams
+}) {
+  const { paymentKey, orderId, amount } = await searchParams
+
+  // searchParams 값이 누락되었을 경우를 대비한 유효성 검사를 추가
+  if (!paymentKey || !orderId || !amount) {
+    // 필수 파라미터가 없으면 실패 페이지로 리디렉션
+    redirect(
+      `/payments/fail?code=INVALID_PARAMS&message=필수 결제 정보가 누락되었습니다.`,
+    )
+  }
 
   const data: Payment = await getPayment({
     paymentKey,

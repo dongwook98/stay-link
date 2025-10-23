@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]/route'
 
 import prisma from '@/utils/db'
 import axios from 'axios'
+import { authOptions } from '@/lib/auth'
 
 // 숙소 조회 API
 // my params가 true일 경우 나의 숙소 리스트 조회
