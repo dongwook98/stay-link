@@ -54,23 +54,19 @@ async function seedRooms() {
       const roomData = {
         title: faker.lorem.words(),
         images: [
-          faker.image.urlLoremFlickr({
-            category: 'hotel',
+          faker.image.url({
             width: 500,
             height: 500,
           }),
-          faker.image.urlLoremFlickr({
-            category: 'travel',
+          faker.image.url({
             width: 500,
             height: 500,
           }),
-          faker.image.urlLoremFlickr({
-            category: 'nature',
+          faker.image.url({
             width: 500,
             height: 500,
           }),
-          faker.image.urlLoremFlickr({
-            category: 'building',
+          faker.image.url({
             width: 500,
             height: 500,
           }),

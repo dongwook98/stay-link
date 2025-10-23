@@ -1,7 +1,7 @@
-import { filterTypeState, filterValueState } from '@/atom/filter'
 import cn from 'classnames'
 import { useAtom, useAtomValue } from 'jotai'
-import React from 'react'
+
+import { filterTypeState, filterValueState } from '@/atom/filter'
 import { SearchFilter } from '.'
 import { AiOutlineSearch } from 'react-icons/ai'
 
@@ -75,6 +75,7 @@ function ActiveFilter() {
           </button>
           <SearchFilter />
         </div>
+
         <button
           type="button"
           className="bg-rose-600 text-white rounded-full h-10 mx-4 sm:w-24 mt-4 sm:mt-2 my-auto flex justify-center gap-1 px-3 py-2 hover:shadow hover:bg-rose-500"
