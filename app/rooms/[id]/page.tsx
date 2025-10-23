@@ -5,6 +5,7 @@ import Loader from '@/components/Loader'
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import { Room } from '@/interface/room'
+import MapSection from '@/components/RoomDetail/MapSectionWrapper'
 
 interface Props {
   params: {
@@ -20,13 +21,6 @@ export default async function RoomDetailPage({ params }: Props) {
     loading: () => <Loader />,
   })
 
-  const MapSection = dynamic(
-    () => import('@/components/RoomDetail/MapSection'),
-    {
-      loading: () => <Loader />,
-      ssr: false,
-    },
-  )
   return (
     <div className="mt-8 mb-20 max-w-6xl mx-auto">
       <HeaderSection data={data} />

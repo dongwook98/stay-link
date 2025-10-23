@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverActions: true, // 서버 액션 기능 활성화
+    serverActions: {},
   },
   images: {
     remotePatterns: [
@@ -16,6 +16,7 @@ const nextConfig = {
       },
     ],
   },
+  turbopack: {}, // ✅ 빈 설정 추가 (Turbopack 활성화 명시)
 }
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
